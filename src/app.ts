@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 import { ConfigService } from './config/config.service';
 import { errorMiddleware } from './errors/error.middleware';
+import { todosRouter } from './todos/todos.controller';
 
 export class App {
 
@@ -18,6 +19,7 @@ export class App {
 
 		app.use(json());
 		app.use('/auth', authRouter);
+		app.use('/todos', todosRouter);
 
 		app.use(errorMiddleware);
 
