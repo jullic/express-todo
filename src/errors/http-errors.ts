@@ -1,8 +1,10 @@
 export class BaseError extends Error {
 	statusCode: number;
-	constructor(statusCode: number, message: string) {
+	errors: any[] | undefined;
+	constructor(statusCode: number, message: string, errors?: any[]) {
 		super(message);
 		Object.setPrototypeOf(this, new.target.prototype);
+		this.errors = errors;
 		this.name = Error.name;
 		this.statusCode = statusCode;
 		Error.captureStackTrace(this);
