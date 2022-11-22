@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "todo app",
   "main": "main.js",
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "start": "node dist/main.js",
     "start:dev": "nodemon src/main.ts",
