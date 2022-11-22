@@ -22,3 +22,15 @@ export class NotFoundError extends BaseError {
 		super(404, message);
 	}
 }
+
+export class ForbiddenError extends BaseError {
+	constructor(message: string) {
+		super(403, message);
+	}
+}
+
+export class BadRequestError extends BaseError {
+	constructor(message: string) {
+		super(400, message);
+	}
+}
