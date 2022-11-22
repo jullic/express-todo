@@ -1,3 +1,5 @@
+
+// http errors
 export class BaseError extends Error {
 	statusCode: number;
 	errors: any[] | undefined;

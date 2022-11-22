@@ -6,12 +6,16 @@ import { CreateTodoDto } from './dto/create-todo.dto';
 import { TodoModel } from './../schemas/todo.schema';
 import { ForbiddenError, NotFoundError } from '../errors/http-errors';
 
+// todo management service
+
 export class TodosService {
 
+	// method for create todo
 	async createTodo({ text, userId }: CreateTodoDto) {
 		return await new TodoModel({ author: userId, text }).save();
 	}
 
+	// method for get todos
 	async getTodos({ query, userId }: GetTodoDto) {
 
 		const todos = query.page ?
@@ -29,23 +33,29 @@ export class TodosService {
 		return todos;
 	}
 
+	// method for get todo
 	async getOneTodo({ todoId, userId }: GetOneTodoDto) {
 
 		const todo = await TodoModel.findById(todoId);
+		// checking for existence
 		if (!todo) {
 			throw new NotFoundError('Не найдено');
 		}
+		// checking access rights
 		if (String(todo.author) !== String(userId)) {
 			throw new ForbiddenError('Нет доступа');
 		}
 		return todo;
 	}
 
+	// method for update todo
 	async updateTodo(dto: UpdateTodoDto) {
 		const todo = await TodoModel.findById(dto.todoId);
+		// checking for existence
 		if (!todo) {
 			throw new NotFoundError('Не найдено');
 		}
+		// checking access rights
 		if (String(todo.author) !== String(dto.userId)) {
 			throw new ForbiddenError('Нет доступа');
 		}
@@ -53,11 +63,14 @@ export class TodosService {
 		return await TodoModel.findByIdAndUpdate(dto.todoId, { text: dto.text || todo.text, completed: dto.completed || todo.completed }, { new: true });
 	}
 
+	// method for delete todo
 	async deleteTodo(dto: DeleteTodoDto) {
 		const todo = await TodoModel.findById(dto.todoId);
+		// checking for existence
 		if (!todo) {
 			throw new NotFoundError('Не найдено');
 		}
+		// checking access rights
 		if (String(todo.author) !== String(dto.userId)) {
 			throw new ForbiddenError('Нет доступа');
 		}

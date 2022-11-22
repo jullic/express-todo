@@ -1,6 +1,7 @@
 import { ErrorRequestHandler } from 'express';
 import { BaseError } from './http-errors';
 
+// middlewar for error handling
 export const errorMiddleware: ErrorRequestHandler = (err: BaseError, req, res, next) => {
 	if (!err.statusCode) {
 		console.log('loh');

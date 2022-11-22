@@ -6,10 +6,14 @@ import { AuthLoginDto } from './dto/auth-login.dto';
 import { checkLoginDto, checkRegisterDto } from './middlewares/check-dto.middleware';
 import { validationResult } from 'express-validator';
 
+// router for authorization
+
 export const authRouter = Router();
 const authService = new AuthService();
 
+// route for authorization
 authRouter.post<Record<string, any>, any, AuthLoginDto>('/login', checkLoginDto, async (req: Request, res: Response, next: NextFunction) => {
+	// check errors
 	const errors = validationResult(req);
 	try {
 		if (!errors.isEmpty()) {
@@ -18,11 +22,14 @@ authRouter.post<Record<string, any>, any, AuthLoginDto>('/login', checkLoginDto,
 		const { id } = await authService.validateUser(req.body);
 		res.json(await authService.login(id));
 	} catch (error) {
+		// error handling via middleware
 		next(error);
 	}
 });
 
+// route for registatrion
 authRouter.post<Record<string, any>, any, AuthRegisterDto>('/register', checkRegisterDto, async (req: Request, res: Response, next: NextFunction) => {
+	// check errors
 	const errors = validationResult(req);
 	try {
 		if (!errors.isEmpty()) {
@@ -32,6 +39,7 @@ authRouter.post<Record<string, any>, any, AuthRegisterDto>('/register', checkReg
 		res.status(201);
 		res.json(await authService.login(id));
 	} catch (error) {
+		// error handling via middleware
 		next(error)
 	}
 });

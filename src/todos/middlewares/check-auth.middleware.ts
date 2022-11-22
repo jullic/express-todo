@@ -5,6 +5,8 @@ import { ConfigService } from './../../config/config.service';
 import { ForbiddenError } from './../../errors/http-errors';
 import mongoose from 'mongoose';
 
+
+// middlewar for authorization verification
 export const checkAuth: RequestHandler<Record<string, any>, any, any, any> = (req, res, next) => {
 	const token = req.headers.authorization?.replace(/Bearer/gim, '').trim();
 	if (!token) {

@@ -9,9 +9,11 @@ import { authErrors } from './auth.constants';
 import { AuthLoginDto } from './dto/auth-login.dto';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 
+// router data processing service
 
 export class AuthService {
 
+	// method for adding a user to the database
 	async register(dto: AuthRegisterDto) {
 		const isUser = await UserModel.findOne({ email: dto.email });
 		if (isUser) {
@@ -20,6 +22,7 @@ export class AuthService {
 
 		const { password, ...dataDto } = dto;
 		const salt = await genSalt(10);
+		// password hashing
 		const data = {
 			...dataDto,
 			passwordHash: await hash(password, salt),
@@ -29,6 +32,7 @@ export class AuthService {
 		return { id };
 	}
 
+	// method for user verification
 	async validateUser({ email, password }: AuthLoginDto) {
 		const user = await UserModel.findOne({ email });
 		if (!user) {
@@ -43,6 +47,7 @@ export class AuthService {
 		return { id: user._id };
 	}
 
+	// method for obtaining a jwt token
 	async login(id: string | mongoose.Types.ObjectId) {
 		const payload = { id };
 		return {
