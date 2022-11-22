@@ -16,7 +16,7 @@ authRouter.post<Record<string, any>, any, AuthLoginDto>('/login', checkLoginDto,
 			throw new BaseError(401, 'Некорректные значения', errors.array());
 		}
 		const { id } = await authService.validateUser(req.body);
-		res.send(await authService.login(id));
+		res.json(await authService.login(id));
 	} catch (error) {
 		next(error);
 	}
@@ -30,7 +30,7 @@ authRouter.post<Record<string, any>, any, AuthRegisterDto>('/register', checkReg
 		}
 		const { id } = await authService.register(req.body);
 		res.status(201);
-		res.send(await authService.login(id));
+		res.json(await authService.login(id));
 	} catch (error) {
 		next(error)
 	}
