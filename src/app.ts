@@ -1,17 +1,18 @@
 import express from 'express';
-import 'dotenv/config';
 import mongoose from 'mongoose';
+
+import { ConfigService } from './config/config.service';
 
 export class App {
 
 	init() {
-		const uri = process.env.MONGO;
+		const uri = ConfigService.get('MONGO');
 		mongoose.connect(uri!)
 			.then(() => console.log('Database connection'))
 			.catch(console.log);
 
 		const app = express();
-		const port = process.env.PORT;
+		const port = ConfigService.get('PORT');;
 
 		app.listen(port, () => {
 			console.log('Server started on port ' + port);
