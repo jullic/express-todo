@@ -1,6 +1,7 @@
 import { authRouter } from './auth/auth.controller';
 import express, { json } from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 
 import { ConfigService } from './config/config.service';
 import { errorMiddleware } from './errors/error.middleware';
@@ -18,6 +19,8 @@ export class App {
 			.then(() => console.log('Database connection'))
 			.catch(console.log);
 
+		// enabling cors
+		app.use(cors());
 		// enabling recognition json
 		app.use(json());
 		// add auth router
